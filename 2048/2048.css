@@ -1,0 +1,96 @@
+:root {
+  --green:#00ff99;
+  --purple:#b266ff;
+  --bg:#0b0b0b;
+  --tile-bg:#111;
+  --tile-text:#fff;
+}
+
+body {
+  background:var(--bg);
+  font-family:"Fira Mono",monospace;
+  color:var(--tile-text);
+  text-align:center;
+  margin:0;
+  padding:0;
+}
+
+#top-nav {
+  border-bottom:1px solid var(--purple);
+  padding:12px 0;
+}
+
+#top-nav ul {
+  list-style:none;
+  display:flex;
+  justify-content:center;
+  gap:28px;
+  padding:0;
+}
+
+#top-nav a {
+  color:var(--tile-text);
+  text-decoration:none;
+  transition:.2s;
+}
+#top-nav a.active,
+#top-nav a:hover {
+  color:var(--green);
+}
+
+#game-container {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-top:50px;
+}
+
+h1 {
+  color:var(--green);
+  margin-bottom:20px;
+}
+
+#grid {
+  display:grid;
+  grid-template-columns:repeat(4,80px);
+  grid-template-rows:repeat(4,80px);
+  gap:8px;
+  background:#222;
+  padding:8px;
+  border-radius:8px;
+  box-shadow:0 0 25px #b266ff22;
+}
+
+.cell {
+  width:80px;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:4px;
+  background:var(--tile-bg);
+  font-weight:bold;
+  font-size:20px;
+  color:var(--tile-text);
+  transition:all .1s ease-in-out;
+}
+
+.info {
+  margin:20px 0;
+  color:#aaa;
+}
+
+button {
+  background:var(--purple);
+  border:none;
+  color:#fff;
+  padding:8px 18px;
+  border-radius:6px;
+  cursor:pointer;
+  font-family:inherit;
+}
+button:hover {
+  background:var(--green);
+  color:#000;
+}
