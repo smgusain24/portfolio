@@ -94,3 +94,43 @@ button:hover {
   background:var(--green);
   color:#000;
 }
+
+
+/* =========================================================
+   Typing Animation
+   ========================================================= */
+.typewriter {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.cursor {
+  display: inline-block;
+  width: 6px;
+  height: 1em;
+  background: var(--green);
+  margin-left: 2px;
+}
+
+@media (max-width: 480px) {
+  .typewriter {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  #left h1 {
+    font-size: 1.1rem;
+  }
+}
+
+.cursor.blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
