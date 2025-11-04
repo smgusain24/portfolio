@@ -18,18 +18,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     type();
   });
+
   const grid = document.getElementById("grid");
   const restartBtn = document.getElementById("restart");
   if (!grid) return;
+
   let cells = [];
   let board = [];
   let touchStartX = 0;
   let touchStartY = 0;
+  let locked = false;
 
   function init() {
     grid.innerHTML = "";
     cells = [];
     board = Array(4).fill().map(() => Array(4).fill(0));
+    locked = false;
 
     for (let i = 0; i < 16; i++) {
       const cell = document.createElement("div");
@@ -49,9 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (board[r][c] === 0) empty.push({ r, c });
       }
     }
-    if (!empty.length) return;
+    if (!empty.length) return false;
     const { r, c } = empty[Math.floor(Math.random() * empty.length)];
     board[r][c] = Math.random() < 0.9 ? 2 : 4;
+    return true;
   }
 
   function update() {
@@ -61,6 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const cell = cells[r * 4 + c];
         cell.textContent = val === 0 ? "" : val;
         cell.style.background = getColor(val);
+        
+        if (val === 0) {
+          cell.style.transform = "scale(0.95)";
+        } else {
+          cell.style.transform = "scale(1)";
+        }
       }
     }
   }
@@ -76,94 +87,167 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function slide(row) {
-    row = row.filter(v => v);
-    for (let i = 0; i < row.length - 1; i++) {
-      if (row[i] === row[i + 1]) {
-        row[i] *= 2;
-        row[i + 1] = 0;
+    let arr = row.filter(v => v !== 0);
+    
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i] === arr[i + 1]) {
+        arr[i] *= 2;
+        arr.splice(i + 1, 1);
       }
     }
-    row = row.filter(v => v);
-    while (row.length < 4) row.push(0);
-    return row;
+    
+    while (arr.length < 4) {
+      arr.push(0);
+    }
+    
+    return arr;
   }
 
-  function rotate(b) {
-    const n = 4;
-    const res = Array.from({ length: n }, () => Array(n).fill(0));
-    for (let r = 0; r < n; r++) {
-      for (let c = 0; c < n; c++) {
-        res[r][c] = b[n - c - 1][r];
+  function copyBoard(b) {
+    return b.map(row => [...row]);
+  }
+
+  function boardsEqual(b1, b2) {
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 4; c++) {
+        if (b1[r][c] !== b2[r][c]) return false;
       }
     }
-    return res;
+    return true;
+  }
+
+  function rotate90Clockwise(b) {
+    const n = 4;
+    const result = Array(n).fill().map(() => Array(n).fill(0));
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        result[c][n - 1 - r] = b[r][c];
+      }
+    }
+    return result;
+  }
+
+  function canMove(b) {
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 4; c++) {
+        if (b[r][c] === 0) return true;
+      }
+    }
+    
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 3; c++) {
+        if (b[r][c] === b[r][c + 1]) return true;
+      }
+    }
+    
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 4; c++) {
+        if (b[r][c] === b[r + 1][c]) return true;
+      }
+    }
+    
+    return false;
+  }
+
+  function move(direction) {
+    let newBoard = copyBoard(board);
+    let rotations = 0;
+
+    if (direction === 'up') {
+      rotations = 1;
+    } else if (direction === 'right') {
+      rotations = 2;
+    } else if (direction === 'down') {
+      rotations = 3;
+    }
+
+    for (let i = 0; i < rotations; i++) {
+      newBoard = rotate90Clockwise(newBoard);
+    }
+
+    let movedBoard = newBoard.map(row => slide(row));
+
+    for (let i = 0; i < (4 - rotations) % 4; i++) {
+      movedBoard = rotate90Clockwise(movedBoard);
+    }
+
+    if (!boardsEqual(board, movedBoard)) {
+      board = movedBoard;
+      addTile();
+      update();
+      
+      if (!canMove(board)) {
+        setTimeout(() => {
+          alert("Game Over! No more moves available.");
+        }, 200);
+      }
+    }
   }
 
   function moveLeft() {
-    let moved = false;
-    for (let r = 0; r < 4; r++) {
-      const newRow = slide(board[r]);
-      if (newRow.toString() !== board[r].toString()) moved = true;
-      board[r] = newRow;
-    }
-    if (moved) {
-      addTile();
-      update();
-    }
+    move('left');
   }
 
   function moveRight() {
-    board = board.map(r => r.reverse());
-    moveLeft();
-    board = board.map(r => r.reverse());
+    move('right');
   }
 
   function moveUp() {
-    board = rotate(board);
-    moveRight();
-    board = rotate(rotate(rotate(board)));
+    move('up');
   }
 
   function moveDown() {
-    board = rotate(board);
-    moveLeft();
-    board = rotate(rotate(rotate(board)));
+    move('down');
   }
-
-  /* ------------------- INPUT HANDLING ------------------- */
-  let locked = false;
 
   function handleMove(fn) {
     if (locked) return;
     locked = true;
     fn();
-    setTimeout(() => locked = false, 120);
+    setTimeout(() => locked = false, 150);
   }
 
   document.addEventListener("keydown", e => {
     switch (e.key) {
-      case "ArrowLeft": handleMove(moveLeft); break;
-      case "ArrowRight": handleMove(moveRight); break;
-      case "ArrowUp": handleMove(moveUp); break;
-      case "ArrowDown": handleMove(moveDown); break;
+      case "ArrowLeft": 
+        e.preventDefault();
+        handleMove(moveLeft); 
+        break;
+      case "ArrowRight": 
+        e.preventDefault();
+        handleMove(moveRight); 
+        break;
+      case "ArrowUp": 
+        e.preventDefault();
+        handleMove(moveUp); 
+        break;
+      case "ArrowDown": 
+        e.preventDefault();
+        handleMove(moveDown); 
+        break;
     }
   });
 
-  /* --- Swipe for mobile --- */
   grid.addEventListener("touchstart", e => {
     const t = e.touches[0];
     touchStartX = t.clientX;
     touchStartY = t.clientY;
   }, { passive: true });
 
+  grid.addEventListener("touchmove", e => {
+    e.preventDefault();
+  }, { passive: false });
+
   grid.addEventListener("touchend", e => {
+    e.preventDefault();
     const t = e.changedTouches[0];
     const dx = t.clientX - touchStartX;
     const dy = t.clientY - touchStartY;
     const absX = Math.abs(dx);
     const absY = Math.abs(dy);
 
-    if (Math.max(absX, absY) < 30) return; // ignore tiny swipes
+    if (Math.max(absX, absY) < 30) return;
+    
     if (absX > absY) {
       if (dx > 0) handleMove(moveRight);
       else handleMove(moveLeft);
@@ -171,11 +255,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (dy > 0) handleMove(moveDown);
       else handleMove(moveUp);
     }
-  }, { passive: true });
+  }, { passive: false });
 
   restartBtn.addEventListener("click", init);
   init();
-
 });
-
-

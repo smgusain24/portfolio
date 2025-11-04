@@ -134,3 +134,17 @@ button:hover {
     opacity: 0;
   }
 }
+
+.cell {
+  width:80px;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:4px;
+  background:var(--tile-bg);
+  font-weight:bold;
+  font-size:20px;
+  color:var(--tile-text);
+  transition:all 0.15s ease-in-out;
+}
