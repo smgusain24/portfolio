@@ -77,7 +77,8 @@ h2 {
 #layout {
   display: flex;
   justify-content: center;
-  align-items: flex-start;   /* top-align both columns */
+  align-items: flex-start;
+  /* top-align both columns */
   gap: 40px;
   flex-wrap: wrap;
   max-width: 1100px;
@@ -95,17 +96,21 @@ h2 {
 
 #left h1 {
   display: block;
-  min-height: 1.5em;    /* locks height */
-  margin-bottom: 12px;  /* spacing from picture */
+  min-height: 1.5em;
+  /* locks height */
+  margin-bottom: 12px;
+  /* spacing from picture */
 }
 
 #left h1 {
-  margin-top: 0;             /* removes any extra top offset */
+  margin-top: 0;
+  /* removes any extra top offset */
 }
 
-#right > h2 {
+#right>h2 {
   text-align: center;
-  margin-top: 0;             /* same top margin as name */
+  margin-top: 0;
+  /* same top margin as name */
   margin-bottom: 20px;
 }
 
@@ -138,14 +143,25 @@ h2 {
   margin-left: 2px;
 }
 
+@media (max-width: 480px) {
+  .typewriter {
+    white-space: normal;
+    word-break: break-word;
+  }
 
+  #left h1 {
+    font-size: 1.1rem;
+  }
+}
 
 .cursor.blink {
   animation: blink 1s step-start infinite;
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* =========================================================
