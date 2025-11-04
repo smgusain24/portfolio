@@ -193,11 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function moveUp() {
-    move('up');
+    move('down'); // invert
   }
 
   function moveDown() {
-    move('down');
+    move('up'); // invert
   }
 
   function handleMove(fn) {
