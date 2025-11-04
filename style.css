@@ -1,0 +1,298 @@
+/* =========================================================
+   Root Variables
+   ========================================================= */
+:root {
+  --green: #00ff99;
+  --purple: #b266ff;
+  --white: #ffffff;
+  --bg: #0b0b0b;
+}
+
+/* =========================================================
+   Base Styles
+   ========================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: "Fira Mono", monospace;
+  line-height: 1.6;
+}
+
+p {
+  margin-bottom: 12px;
+}
+
+a {
+  color: var(--green);
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+h1 {
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+h2 {
+  color: var(--purple);
+  margin: 20px 0 10px;
+}
+
+/* =========================================================
+   Navigation Bar
+   ========================================================= */
+#top-nav {
+  border-bottom: 1px solid var(--purple);
+  padding: 12px 0;
+}
+
+#top-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+#top-nav a {
+  color: var(--white);
+}
+
+#top-nav a.active {
+  color: var(--green);
+}
+
+#top-nav a:hover {
+  color: var(--green);
+}
+
+/* =========================================================
+   Layout (Main Two-Column Section)
+   ========================================================= */
+#layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;   /* top-align both columns */
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+
+#left,
+#right {
+  flex: 1 1 450px;
+  min-width: 350px;
+  text-align: left;
+}
+
+#left h1 {
+  display: block;
+  min-height: 1.5em;    /* locks height */
+  margin-bottom: 12px;  /* spacing from picture */
+}
+
+#left h1 {
+  margin-top: 0;             /* removes any extra top offset */
+}
+
+#right > h2 {
+  text-align: center;
+  margin-top: 0;             /* same top margin as name */
+  margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   Profile Section
+   ========================================================= */
+.profile-pic {
+  border-radius: 50%;
+  width: 120px;
+  margin: 40px 0;
+  border: 2px solid var(--purple);
+}
+
+/* =========================================================
+   Typing Animation
+   ========================================================= */
+.typewriter {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.cursor {
+  display: inline-block;
+  width: 6px;
+  height: 1em;
+  background: var(--green);
+  margin-left: 2px;
+}
+
+
+
+.cursor.blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* =========================================================
+   Skills Section
+   ========================================================= */
+.skills {
+  border: 1px solid var(--purple);
+  border-radius: 8px;
+  background-color: #111;
+  box-shadow: 0 0 25px #b266ff22;
+  padding: 15px 25px;
+}
+
+.skills p {
+  margin: 6px 0;
+}
+
+
+
+
+.skills strong {
+  color: var(--green);
+}
+
+/* =========================================================
+   Experience Section (Timeline)
+   ========================================================= */
+#experience {
+  text-align: center;
+  margin-top: 60px;
+}
+
+#experience h2 {
+  color: var(--purple);
+  margin-bottom: 40px;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line {
+  width: 2px;
+  background: var(--purple);
+  height: 60px;
+  margin: 20px 0;
+  box-shadow: 0 0 10px #b266ff66;
+}
+
+.exp {
+  position: relative;
+  text-align: left;
+  max-width: 700px;
+  width: 90%;
+  padding: 25px;
+  border: 1px solid var(--purple);
+  border-radius: 8px;
+  background-color: #111;
+  box-shadow: 0 0 25px #b266ff22;
+}
+
+.dot {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: var(--green);
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+  box-shadow: 0 0 10px #00ff9966;
+}
+
+.exp h3 {
+  color: var(--green);
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.role {
+  color: var(--purple);
+  font-weight: normal;
+}
+
+.location {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.exp ul {
+  margin-left: 18px;
+  line-height: 1.6;
+}
+
+.exp li {
+  margin: 6px 0;
+}
+
+/* =========================================================
+   Projects Page (Coming Soon)
+   ========================================================= */
+#coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+}
+
+#coming-soon h1 {
+  color: var(--green);
+  margin-bottom: 16px;
+}
+
+.coming-text {
+  color: var(--white);
+  font-size: 18px;
+  border: 1px solid var(--purple);
+  border-radius: 8px;
+  background-color: #111;
+  padding: 25px 40px;
+  box-shadow: 0 0 25px #b266ff22;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+footer {
+  border-top: 1px solid var(--purple);
+  margin-top: 60px;
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #aaa;
+}
+
+#socials a {
+  color: var(--white);
+  margin: 0 8px;
+}
+
+#socials a:hover {
+  color: var(--green);
+}
