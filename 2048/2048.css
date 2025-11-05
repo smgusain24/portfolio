@@ -15,28 +15,32 @@ body {
   padding:0;
 }
 
+
+
 #top-nav {
-  border-bottom:1px solid var(--purple);
-  padding:12px 0;
+  border-bottom: 1px solid var(--purple);
+  padding: 12px 0;
 }
 
 #top-nav ul {
-  list-style:none;
-  display:flex;
-  justify-content:center;
-  gap:28px;
-  padding:0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
 }
 
 #top-nav a {
-  color:var(--tile-text);
-  text-decoration:none;
-  transition:.2s;
+  color: var(--white);
 }
-#top-nav a.active,
+
+#top-nav a.active {
+  color: var(--green);
+}
+
 #top-nav a:hover {
-  color:var(--green);
+  color: var(--green);
 }
+
 
 #game-container {
   display:flex;
